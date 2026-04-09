@@ -1,0 +1,9 @@
+{
+    "url": "https://raw.githubusercontent.com/AbraXa5/swaggeruitest/refs/heads/main/ssrf_probe.yaml",
+    "urls": [
+        {
+            "url": "https://raw.githubusercontent.com/AbraXa5/swaggeruitest/refs/heads/main/ssrf_probe.yaml",
+            "name": "SSRF Probe"
+        }
+    ]
+}
