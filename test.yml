@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Classic API Resource Documentation
-  description: Sample OpenAPI 3.0.1 specification for testing resource documentation.
+  title: Classic API Resource ft. Red Team
+  description: Red Team PoC
   version: 1.0.0
   contact:
     name: API Support
