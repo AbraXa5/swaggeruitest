@@ -1,0 +1,358 @@
+openapi: 3.0.1
+
+info:
+  title: SSRF Probe
+  version: "v1"
+  description: >
+    Connectivity test spec for local services from Swagger UI.
+    Swagger UI can only test HTTP/HTTPS endpoints.
+    Native TCP services like PostgreSQL, MySQL, and Redis will not respond
+    properly unless they are exposed through an HTTP gateway or admin API.
+
+servers:
+  - url: "{scheme}://{host}:{port}"
+    description: Local service endpoint
+    variables:
+      scheme:
+        default: http
+        enum: [http, https]
+      host:
+        default: 127.0.0.1
+        enum: [127.0.0.1, localhost, 127.1]
+      port:
+        default: "8000"
+        enum:
+          - "80"
+          - "81"
+          - "443"
+          - "3000"
+          - "5000"
+          - "8000"
+          - "8080"
+          - "8081"
+          - "8443"
+          - "8888"
+          - "9000"
+          - "9090"
+          - "9091"
+          - "9200"
+          - "9443"
+          - "10000"
+          - "15672"
+          - "2375"
+          - "2376"
+          - "5432"
+          - "6379"
+          - "3306"
+
+tags:
+  - name: Generic
+    description: Generic probes for common HTTP services
+  - name: Web
+    description: Common web server and reverse proxy probes
+  - name: Docker
+    description: Docker Engine API probes
+  - name: Monitoring
+    description: Monitoring and metrics probes
+  - name: Admin
+    description: Common admin and diagnostic probes
+  - name: Docs
+    description: OpenAPI, Swagger, and docs-related probes
+
+paths:
+  /:
+    get:
+      tags: [Generic, Web]
+      summary: Root probe
+      operationId: rootProbe
+      responses:
+        "200":
+          description: OK
+        default:
+          description: Any response from target service
+
+  /health:
+    get:
+      tags: [Generic]
+      summary: Health probe
+      operationId: healthProbe
+      responses:
+        "200":
+          description: Health endpoint responded
+        default:
+          description: Any response from target service
+
+  /status:
+    get:
+      tags: [Generic, Admin]
+      summary: Status probe
+      operationId: statusProbe
+      responses:
+        "200":
+          description: Status endpoint responded
+        default:
+          description: Any response from target service
+
+  /ping:
+    get:
+      tags: [Generic]
+      summary: Ping probe
+      operationId: pingProbe
+      responses:
+        "200":
+          description: Ping endpoint responded
+        default:
+          description: Any response from target service
+
+  /version:
+    get:
+      tags: [Generic, Docker, Admin]
+      summary: Version probe
+      operationId: versionProbe
+      responses:
+        "200":
+          description: Version endpoint responded
+        default:
+          description: Any response from target service
+
+  /info:
+    get:
+      tags: [Generic, Admin]
+      summary: Info probe
+      operationId: infoProbe
+      responses:
+        "200":
+          description: Info endpoint responded
+        default:
+          description: Any response from target service
+
+  /metrics:
+    get:
+      tags: [Monitoring]
+      summary: Metrics probe
+      operationId: metricsProbe
+      responses:
+        "200":
+          description: Metrics endpoint responded
+        default:
+          description: Any response from target service
+
+  /api/health:
+    get:
+      tags: [Generic]
+      summary: API health probe
+      operationId: apiHealthProbe
+      responses:
+        "200":
+          description: API health endpoint responded
+        default:
+          description: Any response from target service
+
+  /api/version:
+    get:
+      tags: [Generic]
+      summary: API version probe
+      operationId: apiVersionProbe
+      responses:
+        "200":
+          description: API version endpoint responded
+        default:
+          description: Any response from target service
+
+  /v1/health:
+    get:
+      tags: [Generic]
+      summary: Versioned health probe
+      operationId: v1HealthProbe
+      responses:
+        "200":
+          description: Versioned health endpoint responded
+        default:
+          description: Any response from target service
+
+  /v1/status:
+    get:
+      tags: [Generic]
+      summary: Versioned status probe
+      operationId: v1StatusProbe
+      responses:
+        "200":
+          description: Versioned status endpoint responded
+        default:
+          description: Any response from target service
+
+  /nginx_status:
+    get:
+      tags: [Web]
+      summary: nginx status probe
+      operationId: nginxStatusProbe
+      responses:
+        "200":
+          description: nginx status endpoint responded
+        default:
+          description: Any response from target service
+
+  /server-status:
+    get:
+      tags: [Web]
+      summary: Apache server-status probe
+      operationId: apacheStatusProbe
+      responses:
+        "200":
+          description: Apache status endpoint responded
+        default:
+          description: Any response from target service
+
+  /-/healthy:
+    get:
+      tags: [Monitoring]
+      summary: Prometheus-style healthy probe
+      operationId: healthyProbe
+      responses:
+        "200":
+          description: Healthy endpoint responded
+        default:
+          description: Any response from target service
+
+  /-/ready:
+    get:
+      tags: [Monitoring]
+      summary: Ready probe
+      operationId: readyProbe
+      responses:
+        "200":
+          description: Ready endpoint responded
+        default:
+          description: Any response from target service
+
+  /_ping:
+    get:
+      tags: [Docker]
+      summary: Docker ping probe
+      operationId: dockerPingProbe
+      responses:
+        "200":
+          description: Docker daemon reachable
+        default:
+          description: Any response from target service
+
+  /containers/json:
+    get:
+      tags: [Docker]
+      summary: Docker containers list probe
+      operationId: dockerContainersProbe
+      responses:
+        "200":
+          description: Docker container list returned
+        default:
+          description: Any response from target service
+
+  /images/json:
+    get:
+      tags: [Docker]
+      summary: Docker images list probe
+      operationId: dockerImagesProbe
+      responses:
+        "200":
+          description: Docker images list returned
+        default:
+          description: Any response from target service
+
+  /openapi.json:
+    get:
+      tags: [Docs]
+      summary: OpenAPI JSON probe
+      operationId: openapiJsonProbe
+      responses:
+        "200":
+          description: OpenAPI JSON found
+        default:
+          description: Any response from target service
+
+  /openapi.yaml:
+    get:
+      tags: [Docs]
+      summary: OpenAPI YAML probe
+      operationId: openapiYamlProbe
+      responses:
+        "200":
+          description: OpenAPI YAML found
+        default:
+          description: Any response from target service
+
+  /swagger:
+    get:
+      tags: [Docs]
+      summary: Swagger UI probe
+      operationId: swaggerUiProbe
+      responses:
+        "200":
+          description: Swagger UI found
+        default:
+          description: Any response from target service
+
+  /swagger-ui:
+    get:
+      tags: [Docs]
+      summary: Swagger UI alternate probe
+      operationId: swaggerUiAltProbe
+      responses:
+        "200":
+          description: Swagger UI found
+        default:
+          description: Any response from target service
+
+  /swagger/index.html:
+    get:
+      tags: [Docs]
+      summary: Swagger index probe
+      operationId: swaggerIndexProbe
+      responses:
+        "200":
+          description: Swagger index found
+        default:
+          description: Any response from target service
+
+  /api-docs:
+    get:
+      tags: [Docs]
+      summary: API docs probe
+      operationId: apiDocsProbe
+      responses:
+        "200":
+          description: API docs found
+        default:
+          description: Any response from target service
+
+  /v3/api-docs:
+    get:
+      tags: [Docs]
+      summary: Springdoc OpenAPI probe
+      operationId: springdocProbe
+      responses:
+        "200":
+          description: Springdoc OpenAPI found
+        default:
+          description: Any response from target service
+
+  /docs:
+    get:
+      tags: [Docs]
+      summary: Generic docs probe
+      operationId: docsProbe
+      responses:
+        "200":
+          description: Docs endpoint found
+        default:
+          description: Any response from target service
+
+  /redoc:
+    get:
+      tags: [Docs]
+      summary: ReDoc probe
+      operationId: redocProbe
+      responses:
+        "200":
+          description: ReDoc endpoint found
+        default:
+          description: Any response from target service
